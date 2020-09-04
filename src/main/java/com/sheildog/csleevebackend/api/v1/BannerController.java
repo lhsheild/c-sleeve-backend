@@ -1,5 +1,7 @@
 package com.sheildog.csleevebackend.api.v1;
 
+import com.sheildog.csleevebackend.exception.http.ForbiddenException;
+import com.sheildog.csleevebackend.exception.http.NotFoundException;
 import com.sheildog.csleevebackend.sample.hero.ISkill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,20 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("v1/banner")
 public class BannerController {
-//    private final ISkill diana;
-//    private final ISkill irelia;
-//
-//    public BannerController(ISkill diana, ISkill irelia) {
-//        this.diana = diana;
-//        this.irelia = irelia;
-//    }
     @Autowired
-    private ISkill camille;
+    private ISkill iSkill;
 
     @GetMapping("/test")
-    public String test() {
-        /* this.diana.r(); */
-        camille.r();
-        return "hello, sheildog!";
+    public String test() throws Exception {
+        iSkill.r();
+        throw new ForbiddenException(10001);
     }
 }

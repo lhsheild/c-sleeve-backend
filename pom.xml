@@ -24,7 +24,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
+            <scope>true</scope>
             <optional>true</optional>
         </dependency>
         <dependency>
@@ -70,6 +70,7 @@
                 <version>2.3.0.RELEASE</version>
                 <configuration>
                     <mainClass>com.sheildog.csleevebackend.CSleeveBackendApplication</mainClass>
+                    <fork>true</fork>
                 </configuration>
                 <executions>
                     <execution>

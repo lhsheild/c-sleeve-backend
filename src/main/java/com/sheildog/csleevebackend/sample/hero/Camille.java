@@ -1,8 +1,13 @@
 package com.sheildog.csleevebackend.sample.hero;
 
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
+
 /**
  * @author a7818
  */
+@Component
+@Primary
 public class Camille implements ISkill {
     @Override
     public void q() {
