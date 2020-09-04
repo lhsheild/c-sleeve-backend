@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author a7818
  */
 @RestController
-@RequestMapping("v1/banner")
+@RequestMapping("/banner")
 public class BannerController {
     @Autowired
     private ISkill iSkill;
