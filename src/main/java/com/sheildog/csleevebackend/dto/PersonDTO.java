@@ -1,11 +1,15 @@
 package com.sheildog.csleevebackend.dto;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import com.sheildog.csleevebackend.validators.PasswordEqual;
+import lombok.*;
 
+//@Builder
 @Data
+@PasswordEqual(min = 8, max = 32, message = "两次密码不相等")
 public class PersonDTO {
     private String name;
     private Integer age;
+
+    private String password1;
+    private String password2;
 }
