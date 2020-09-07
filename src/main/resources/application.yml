@@ -3,7 +3,7 @@ spring:
     active: dev
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
 
 c-sleeve-backend:
   api-package: com.sheildog.csleevebackend.api
