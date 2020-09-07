@@ -1,0 +1,6 @@
+spring:
+  profiles:
+    active: dev
+
+c-sleeve-backend:
+  api-package: com.sheildog.csleevebackend.api
