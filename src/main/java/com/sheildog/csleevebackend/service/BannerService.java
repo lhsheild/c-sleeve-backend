@@ -1,7 +1,7 @@
 package com.sheildog.csleevebackend.service;
 
-import org.springframework.stereotype.Service;
+import com.sheildog.csleevebackend.model.Banner;
 
 public interface BannerService {
-    void getByName(String name);
+    Banner getByName(String name);
 }

@@ -41,6 +41,7 @@ public class GlobalExceptionAdvice {
     }
 
     @ExceptionHandler(value = HttpException.class)
+    @ResponseBody
     public ResponseEntity<UnifyResponse> handleHttpException(HttpServletRequest req, HttpException e) {
         System.out.println(e);
         String requestUrl = req.getRequestURI();

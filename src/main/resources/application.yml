@@ -1,6 +1,9 @@
 spring:
   profiles:
     active: dev
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
 
 c-sleeve-backend:
   api-package: com.sheildog.csleevebackend.api

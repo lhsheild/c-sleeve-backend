@@ -1,5 +1,8 @@
 package com.sheildog.csleevebackend.service;
 
+import com.sheildog.csleevebackend.model.Banner;
+import com.sheildog.csleevebackend.repository.BannerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -7,8 +10,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class BannerServiceImpl implements BannerService {
-    @Override
-    public void getByName(String name){
+    @Autowired
+    private BannerRepository bannerRepository;
 
+    @Override
+    public Banner getByName(String name){
+        return bannerRepository.findOneByName(name);
     }
 }
