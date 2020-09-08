@@ -1,20 +1,26 @@
 package com.sheildog.csleevebackend.model;
 
-import javax.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.Objects;
+
+/**
+ * @author a7818
+ */
 @Entity
-public class BannerItem {
+@Getter
+@Setter
+@Table(name = "banner_item", schema = "sleeve", catalog = "")
+public class BannerItem extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String name;
+    private Long id;
     private String img;
     private String keyword;
     private Short type;
-
     private Long bannerId;
-
-    @ManyToOne
-    @JoinColumn(name = "bannerId", insertable = false, updatable = false, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
-    private Banner banner;
+    private String name;
 }

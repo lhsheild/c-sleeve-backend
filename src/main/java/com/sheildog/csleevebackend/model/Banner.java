@@ -1,26 +1,29 @@
 package com.sheildog.csleevebackend.model;
 
-import org.hibernate.annotations.ForeignKey;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author a7818
  */
 @Entity
-public class Banner {
+@Getter
+@Setter
+public class Banner extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String name;
     private String description;
-    private String img;
     private String title;
+    private String img;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "banner")
-//    @ForeignKey(name = "null")
-//    @OneToMany(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "banner_id")
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bannerId")
     private List<BannerItem> items;
 }
