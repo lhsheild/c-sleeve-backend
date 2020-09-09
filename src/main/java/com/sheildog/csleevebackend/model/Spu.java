@@ -1,5 +1,8 @@
 package com.sheildog.csleevebackend.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +11,8 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
 public class Spu extends BaseEntity{
     @Id
     private Long id;
@@ -15,7 +20,7 @@ public class Spu extends BaseEntity{
     private String subtitle;
     private Long categoryId;
     private Long rootCategoryId;
-    private Short online;
+    private Boolean online;
     private String price;
     private Long sketchSpecId;
     private Long defaultSkuId;
@@ -23,7 +28,7 @@ public class Spu extends BaseEntity{
     private String discountPrice;
     private String description;
     private String tags;
-    private Short isTest;
-    private Object spuThemeImg;
+    private Boolean isTest;
+//    private Object spuThemeImg;
     private String forThemeImg;
 }
