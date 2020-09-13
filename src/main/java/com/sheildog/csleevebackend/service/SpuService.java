@@ -2,6 +2,7 @@ package com.sheildog.csleevebackend.service;
 
 import com.sheildog.csleevebackend.model.Banner;
 import com.sheildog.csleevebackend.model.Spu;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -10,5 +11,5 @@ import java.util.List;
  */
 public interface SpuService {
     Spu getSpu(Long id);
-    List<Spu> getLatestPagingSpu();
+    Page<Spu> getLatestPagingSpu(Integer pageNum, Integer size);
 }
