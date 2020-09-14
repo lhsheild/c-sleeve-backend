@@ -9,5 +9,12 @@ spring:
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: true
 
+server:
+  servlet:
+    encoding:
+      charset: utf-8
+      force: true
+      enabled: true
+
 c-sleeve-backend:
   api-package: com.sheildog.csleevebackend.api

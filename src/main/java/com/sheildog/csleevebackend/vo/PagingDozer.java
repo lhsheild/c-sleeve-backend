@@ -13,8 +13,6 @@ import java.util.List;
 /**
  * @author a7818
  */
-//@Getter
-//@Setter
 @NoArgsConstructor
 public class PagingDozer<T, K> extends Paging {
     @SuppressWarnings("unchecked")
