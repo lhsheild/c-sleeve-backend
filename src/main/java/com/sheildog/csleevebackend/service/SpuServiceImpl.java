@@ -29,4 +29,10 @@ public class SpuServiceImpl implements SpuService {
         Pageable page = PageRequest.of(pageNum, size, Sort.by("createTime").descending());
         return this.spuRepository.findAll(page);
     }
+
+    @Override
+    public Page<Spu> getByCategory(Long cid, Boolean isRoot, Integer pageNum, Integer size){
+        Pageable page = PageRequest.of(pageNum, size);
+        return this.spuRepository.findByCategoryIdOrderByCreateTimeDesc(cid, page);
+    }
 }

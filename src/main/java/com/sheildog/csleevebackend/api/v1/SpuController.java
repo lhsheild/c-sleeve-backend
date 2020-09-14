@@ -2,10 +2,14 @@ package com.sheildog.csleevebackend.api.v1;
 
 import com.github.dozermapper.core.DozerBeanMapperBuilder;
 import com.github.dozermapper.core.Mapper;
+import com.sheildog.csleevebackend.bo.PageCounter;
 import com.sheildog.csleevebackend.exception.http.NotFoundException;
 import com.sheildog.csleevebackend.model.Spu;
 import com.sheildog.csleevebackend.service.SpuService;
 import com.sheildog.csleevebackend.service.SpuServiceImpl;
+import com.sheildog.csleevebackend.util.CommonUtil;
+import com.sheildog.csleevebackend.vo.Paging;
+import com.sheildog.csleevebackend.vo.PagingDozer;
 import com.sheildog.csleevebackend.vo.SpuSimplifyVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,18 +32,18 @@ public class SpuController {
     private SpuService spuService;
 
     @GetMapping("/id/{id}/detail")
-    public Spu getDetail(@PathVariable @Positive Long id){
+    public Spu getDetail(@PathVariable @Positive Long id) {
         Spu spu = spuService.getSpu(id);
-        if (spu==null){
+        if (spu == null) {
             throw new NotFoundException(30003);
         }
         return spu;
     }
 
     @GetMapping("/id/{id}/simplify")
-    public SpuSimplifyVO getSimplifySpu(@PathVariable @Positive Long id){
+    public SpuSimplifyVO getSimplifySpu(@PathVariable @Positive Long id) {
         Spu spu = spuService.getSpu(id);
-        if (spu==null){
+        if (spu == null) {
             throw new NotFoundException(30003);
         }
         SpuSimplifyVO vo = new SpuSimplifyVO();
@@ -48,20 +52,23 @@ public class SpuController {
     }
 
     @GetMapping("/latest")
-    public List<SpuSimplifyVO> getLatestSpuList(
+    public PagingDozer<Spu ,SpuSimplifyVO> getLatestSpuList(
             @RequestParam(defaultValue = "0") Integer start,
             @RequestParam(defaultValue = "10") Integer count
+    ) {
+        PageCounter pageCounter = CommonUtil.convertToPageParameter(start, count);
+        Page<Spu> page = spuService.getLatestPagingSpu(pageCounter.getPage(), pageCounter.getCount());
+        PagingDozer<Spu, SpuSimplifyVO> paging = new PagingDozer<>(page, SpuSimplifyVO.class);
+        return paging;
+    }
+
+    @GetMapping("/by/category/{id}")
+    public PagingDozer<Spu, SpuSimplifyVO> getByCategoryId(
+            @PathVariable(name = "id") Long id,
+            @RequestParam(name = "is_root") Boolean isRoot,
+            @RequestParam(defaultValue = "0", name = "start") Integer start,
+            @RequestParam(defaultValue = "10", name = "count") Integer count
     ){
-        Page<Spu> list = spuService.getLatestPagingSpu(start, count);
-        if (list==null){
-            throw new NotFoundException(30003);
-        }
-        Mapper mapper = DozerBeanMapperBuilder.buildDefault();
-        List<SpuSimplifyVO> vos = new ArrayList<>();
-        list.forEach(s->{
-            SpuSimplifyVO vo = mapper.map(s, SpuSimplifyVO.class);
-            vos.add(vo);
-        });
-        return vos;
+        return null;
     }
 }
