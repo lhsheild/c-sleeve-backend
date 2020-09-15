@@ -11,6 +11,9 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+/**
+ * @author a7818
+ */
 @Entity
 @Getter
 @Setter
