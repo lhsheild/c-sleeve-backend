@@ -1,15 +1,12 @@
 package com.sheildog.csleevebackend.model;
 
+import com.sheildog.csleevebackend.util.MapAndJson;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.Objects;
+import java.util.Map;
 
 /**
  * @author a7818
@@ -26,9 +23,12 @@ public class Sku extends BaseEntity {
     private String img;
     private String title;
     private Long spuId;
+    private Long categoryId;
+    private Long rootCategoryId;
+    @Convert(converter = MapAndJson.class)
+    private Map<String, Object> test;
+//    private String test;
     private String specs;
     private String code;
     private Long stock;
-    private Long categoryId;
-    private Long rootCategoryId;
 }

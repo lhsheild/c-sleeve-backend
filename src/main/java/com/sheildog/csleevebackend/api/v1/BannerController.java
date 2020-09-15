@@ -3,6 +3,7 @@ package com.sheildog.csleevebackend.api.v1;
 import com.sheildog.csleevebackend.dto.PersonDTO;
 import com.sheildog.csleevebackend.exception.http.HttpException;
 import com.sheildog.csleevebackend.exception.http.NotFoundException;
+import com.sheildog.csleevebackend.exception.http.ServerErrorException;
 import com.sheildog.csleevebackend.model.Banner;
 import com.sheildog.csleevebackend.sample.hero.ISkill;
 import com.sheildog.csleevebackend.service.BannerService;
@@ -30,5 +31,11 @@ public class BannerController {
             throw new NotFoundException(30005);
         }
         return banner;
+    }
+
+    @GetMapping("/test")
+    public String test(){
+        System.out.println(123);
+        throw new ServerErrorException(9999);
     }
 }
