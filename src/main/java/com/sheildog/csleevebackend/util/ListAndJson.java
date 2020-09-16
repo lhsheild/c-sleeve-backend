@@ -1,6 +1,5 @@
 package com.sheildog.csleevebackend.util;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sheildog.csleevebackend.exception.http.ServerErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,21 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Converter
-public class MapAndJson implements AttributeConverter<Map<String, Object>, String> {
-
+public class ListAndJson implements AttributeConverter<List<Object>, String> {
     @Autowired
     private ObjectMapper mapper;
 
     @Override
-    public String convertToDatabaseColumn(Map<String, Object> stringObjectMap) {
+    public String convertToDatabaseColumn(List<Object> objects) {
         try {
-            if (stringObjectMap == null) {
+            if (objects == null) {
                 return null;
             }
-            return mapper.writeValueAsString(stringObjectMap);
+            return mapper.writeValueAsString(objects);
         } catch (Exception e) {
             e.printStackTrace();
             throw new ServerErrorException(9999);
@@ -30,13 +29,12 @@ public class MapAndJson implements AttributeConverter<Map<String, Object>, Strin
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public Map<String, Object> convertToEntityAttribute(String s) {
+    public List<Object> convertToEntityAttribute(String s) {
         try {
-            if (s == null) {
+            if (s==null){
                 return null;
             }
-            Map<String, Object> t = mapper.readValue(s, HashMap.class);
+            List<Object> t = mapper.readValue(s, List.class);
             return t;
         } catch (Exception e) {
             e.printStackTrace();
