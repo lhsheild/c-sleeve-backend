@@ -7,6 +7,7 @@ import com.sheildog.csleevebackend.util.ListAndJson;
 import com.sheildog.csleevebackend.util.MapAndJson;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -20,6 +21,7 @@ import java.util.Map;
 @Entity
 @Getter
 @Setter
+@Where(clause = "delete_time is null")
 public class Sku extends BaseEntity {
     @Id
     private Long id;
