@@ -1,6 +1,6 @@
 package com.sheildog.csleevebackend.dto;
 
-import com.sheildog.csleevebackend.validators.PasswordEqual;
+import com.sheildog.csleevebackend.dto.validators.PasswordEqual;
 import lombok.*;
 
 //@Builder

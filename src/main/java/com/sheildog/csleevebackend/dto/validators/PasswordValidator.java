@@ -1,4 +1,4 @@
-package com.sheildog.csleevebackend.validators;
+package com.sheildog.csleevebackend.dto.validators;
 
 import com.sheildog.csleevebackend.dto.PersonDTO;
 

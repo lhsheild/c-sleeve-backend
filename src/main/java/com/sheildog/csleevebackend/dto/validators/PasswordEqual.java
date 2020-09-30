@@ -1,4 +1,4 @@
-package com.sheildog.csleevebackend.validators;
+package com.sheildog.csleevebackend.dto.validators;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
