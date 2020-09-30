@@ -14,6 +14,5 @@ public interface ThemeRepository extends JpaRepository<Theme, Long> {
     @Query("select t from Theme t where t.name in (:names)")
     List<Theme> findByNames(@Param("names") List<String> names);
 
-    @Query
     Optional<Theme> findByName(String name);
 }

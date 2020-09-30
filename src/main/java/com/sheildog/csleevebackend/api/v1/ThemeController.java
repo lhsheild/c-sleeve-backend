@@ -23,10 +23,10 @@ public class ThemeController {
     private ThemeService themeService;
 
     @GetMapping("/by/names")
-    public List<ThemePureVO> getThemeGroupByNames(@RequestParam(name = "names") String names){
+    public List<ThemePureVO> getThemeGroupByNames(@RequestParam(name = "names") String names) {
         List<String> nameList = Arrays.asList(names.split(","));
         List<Theme> themes = themeService.findByNames(nameList);
-        if (themes.isEmpty()){
+        if (themes.isEmpty()) {
             throw new NotFoundException(30006);
         }
         List<ThemePureVO> list = new ArrayList<>();
@@ -42,8 +42,8 @@ public class ThemeController {
     public Theme getThemeByNameWithSpu(@PathVariable(name = "name") String themeName,
                                        @RequestParam(name = "start", defaultValue = "0") Long start,
                                        @RequestParam(name = "count", defaultValue = "10") Long count
-    ){
+    ) {
         Optional<Theme> optionalTheme = this.themeService.findByName(themeName);
-        return optionalTheme.orElseThrow(()-> new NotFoundException(30006));
+        return optionalTheme.orElseThrow(() -> new NotFoundException(30006));
     }
 }

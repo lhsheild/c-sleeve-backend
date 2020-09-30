@@ -27,9 +27,9 @@ public class CategoryController {
     private GridCategoryService gridCategoryService;
 
     @GetMapping("/all")
-    public CategoriesAllVO getALL(){
+    public CategoriesAllVO getALL() {
         Map<Integer, List<Category>> categories = categoryService.getAll();
-        if (categories.isEmpty()){
+        if (categories.isEmpty()) {
             throw new NotFoundException(30009);
         }
         return new CategoriesAllVO(categories);
@@ -38,7 +38,7 @@ public class CategoryController {
     @GetMapping("/grid/all")
     public List<GridCategory> getGridCategoryList() {
         List<GridCategory> gridCategoryList = gridCategoryService.getGridCategoryList();
-        if (gridCategoryList.isEmpty()){
+        if (gridCategoryList.isEmpty()) {
             throw new NotFoundException(30009);
         }
         return gridCategoryList;

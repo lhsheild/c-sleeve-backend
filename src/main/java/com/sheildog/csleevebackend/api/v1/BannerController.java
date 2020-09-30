@@ -27,14 +27,14 @@ public class BannerController {
     @GetMapping("/name/{name}")
     public Banner getByName(@PathVariable String name) {
         Banner banner = bannerService.getByName(name);
-        if (banner == null){
+        if (banner == null) {
             throw new NotFoundException(30005);
         }
         return banner;
     }
 
     @GetMapping("/test")
-    public String test(){
+    public String test() {
         System.out.println(123);
         throw new ServerErrorException(9999);
     }
