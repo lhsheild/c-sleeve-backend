@@ -2,6 +2,7 @@ package com.sheildog.csleevebackend.core;
 
 import com.sheildog.csleevebackend.core.configuration.ExceptionCodeConfiguration;
 import com.sheildog.csleevebackend.exception.http.HttpException;
+import com.sheildog.csleevebackend.exception.http.ParameterException;
 import com.sheildog.csleevebackend.exception.http.ServerErrorException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -83,7 +84,17 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler(value = ServerErrorException.class)
     @ResponseBody
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
-    public UnifyResponse handleServerErrorException(HttpServletRequest req, HttpException e) {
+    public UnifyResponse handleServerErrorException(HttpServletRequest req, ServerErrorException e) {
+        String requestUrl = req.getRequestURI();
+        String method = req.getMethod();
+        UnifyResponse r = new UnifyResponse(e.getCode(), exceptionCodeConfiguration.getMessage(e.getCode()), method + " " + requestUrl);
+        return r;
+    }
+
+    @ExceptionHandler(value = ParameterException.class)
+    @ResponseBody
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+    public UnifyResponse handleParameterException(HttpServletRequest req, ParameterException e) {
         String requestUrl = req.getRequestURI();
         String method = req.getMethod();
         UnifyResponse r = new UnifyResponse(e.getCode(), exceptionCodeConfiguration.getMessage(e.getCode()), method + " " + requestUrl);

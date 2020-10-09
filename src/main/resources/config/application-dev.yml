@@ -12,3 +12,8 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+
+c-sleeve-backend:
+  security:
+    jwt-key: 7777712312312
+    token-expired-in: 36400000

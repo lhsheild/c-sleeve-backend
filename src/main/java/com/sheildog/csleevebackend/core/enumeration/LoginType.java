@@ -1,5 +1,9 @@
 package com.sheildog.csleevebackend.core.enumeration;
 
+/**
+ * @author a7818
+ */
+
 public enum LoginType {
     USER_WX(0, "微信登陆"),
     USER_EMAIL(1, "邮箱登录");

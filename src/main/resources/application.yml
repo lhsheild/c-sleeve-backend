@@ -18,3 +18,8 @@ server:
 
 c-sleeve-backend:
   api-package: com.sheildog.csleevebackend.api
+
+wx:
+  appid: wx9908fbab69fc1b3d
+  appsecret: 248dcbf670f6dd56c8f81b79fbe39d44
+  code2session: https://api.weixin.qq.com/sns/jscode2session?appid={0}&secret={1}&js_code={2}&grant_type=authorization_code
