@@ -1,5 +1,6 @@
 package com.sheildog.csleevebackend.api.v1;
 
+import com.sheildog.csleevebackend.core.interceptors.ScopeLevel;
 import com.sheildog.csleevebackend.dto.PersonDTO;
 import com.sheildog.csleevebackend.exception.http.HttpException;
 import com.sheildog.csleevebackend.exception.http.NotFoundException;
@@ -25,6 +26,7 @@ public class BannerController {
     private BannerService bannerService;
 
     @GetMapping("/name/{name}")
+    @ScopeLevel(1)
     public Banner getByName(@PathVariable String name) {
         Banner banner = bannerService.getByName(name);
         if (banner == null) {

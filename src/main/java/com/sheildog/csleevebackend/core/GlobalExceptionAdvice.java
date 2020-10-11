@@ -4,6 +4,7 @@ import com.sheildog.csleevebackend.core.configuration.ExceptionCodeConfiguration
 import com.sheildog.csleevebackend.exception.http.HttpException;
 import com.sheildog.csleevebackend.exception.http.ParameterException;
 import com.sheildog.csleevebackend.exception.http.ServerErrorException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,17 +26,19 @@ import java.util.List;
  */
 @ControllerAdvice
 public class GlobalExceptionAdvice {
-    private final ExceptionCodeConfiguration exceptionCodeConfiguration;
-
-    public GlobalExceptionAdvice(ExceptionCodeConfiguration exceptionCodeConfiguration) {
-        this.exceptionCodeConfiguration = exceptionCodeConfiguration;
-    }
+//    private final ExceptionCodeConfiguration exceptionCodeConfiguration;
+//
+//    public GlobalExceptionAdvice(ExceptionCodeConfiguration exceptionCodeConfiguration) {
+//        this.exceptionCodeConfiguration = exceptionCodeConfiguration;
+//    }
+    @Autowired
+    private ExceptionCodeConfiguration exceptionCodeConfiguration;
 
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
     public UnifyResponse handleException(HttpServletRequest req, Exception e) {
-        System.out.println(e);
+//        System.out.println(e);
         String requestUrl = req.getRequestURI();
         String method = req.getMethod();
         UnifyResponse message = new UnifyResponse(9999, "服务器异常", method + " " + requestUrl);
@@ -45,7 +48,7 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler(value = HttpException.class)
     @ResponseBody
     public ResponseEntity<UnifyResponse> handleHttpException(HttpServletRequest req, HttpException e) {
-        System.out.println(e);
+//        System.out.println(e);
         String requestUrl = req.getRequestURI();
         String method = req.getMethod();
         HttpHeaders headers = new HttpHeaders();

@@ -6,7 +6,7 @@ import com.sheildog.csleevebackend.exception.http.ParameterException;
 import com.sheildog.csleevebackend.exception.http.ServerErrorException;
 import com.sheildog.csleevebackend.model.User;
 import com.sheildog.csleevebackend.repository.UserRepository;
-import com.sheildog.csleevebackend.util.JWTToken;
+import com.sheildog.csleevebackend.util.JwtToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -58,12 +58,12 @@ public class WxAuthenticationService {
         Optional<User> userOptional = this.userRepository.findByOpenid(openId);
         if (userOptional.isPresent()){
             // TODO:返回JWT
-            return JWTToken.makeToken(userOptional.get().getId());
+            return JwtToken.makeToken(userOptional.get().getId());
         }
         User user = User.builder().openid(openId).build();
         this.userRepository.save(user);
         // TODO:返回JWT
         Long uid = user.getId();
-        return JWTToken.makeToken(uid);
+        return JwtToken.makeToken(uid);
     }
 }
