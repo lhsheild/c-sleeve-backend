@@ -23,8 +23,6 @@ public class UserCoupon {
     private Long couponId;
     private Long orderId;
     private Integer status;
-    @JsonIgnore
     private Date createTime;
-    @JsonIgnore
     private Date updateTime;
 }
