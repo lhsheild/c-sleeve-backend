@@ -20,6 +20,10 @@ public class CouponService {
     public List<Coupon> getByCategory(Long cid) {
         Date now = new Date();
         return couponRepository.findByCategory(cid, now);
-//        return couponRepository.findByCategory(cid);
+    }
+
+    public List<Coupon> getWholeStoreCoupons(){
+        Date now = new Date();
+        return couponRepository.findByWholeStore(true, now);
     }
 }
