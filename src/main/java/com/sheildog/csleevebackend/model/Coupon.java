@@ -1,7 +1,9 @@
 package com.sheildog.csleevebackend.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -13,11 +15,16 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
+@Where(clause = "delete_time is null")
 public class Coupon extends BaseEntity {
     @Id
     private Long id;
     private String title;
+    @Column(name = "start_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startTime;
+    @Column(name = "end_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endTime;
     private String description;
     private BigDecimal fullMoney;

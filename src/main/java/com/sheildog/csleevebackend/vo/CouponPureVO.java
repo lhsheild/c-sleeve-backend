@@ -1,5 +1,6 @@
 package com.sheildog.csleevebackend.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sheildog.csleevebackend.exception.http.NotFoundException;
 import com.sheildog.csleevebackend.model.Coupon;
 import lombok.Getter;
@@ -22,7 +23,9 @@ import java.util.stream.Collectors;
 public class CouponPureVO {
     private Long id;
     private String title;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endTime;
     private String description;
     private BigDecimal fullMoney;
