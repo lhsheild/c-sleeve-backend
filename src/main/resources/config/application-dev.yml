@@ -19,3 +19,5 @@ c-sleeve-backend:
   security:
     jwt-key: 7777712312312
     token-expired-in: 36400000
+  order:
+    max-sku-limit: 777

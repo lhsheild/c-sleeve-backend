@@ -1,5 +1,6 @@
 package com.sheildog.csleevebackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.mysql.cj.x.protobuf.MysqlxDatatypes;
 import com.sheildog.csleevebackend.util.GenericAndJson;
@@ -14,6 +15,7 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author a7818
@@ -21,7 +23,7 @@ import java.util.Map;
 @Entity
 @Getter
 @Setter
-@Where(clause = "delete_time is null")
+@Where(clause = "delete_time is null and online = 1")
 public class Sku extends BaseEntity {
     @Id
     private Long id;
@@ -54,5 +56,12 @@ public class Sku extends BaseEntity {
 
     public BigDecimal getActualPrice() {
         return discountPrice == null ? this.price : this.discountPrice;
+    }
+
+    @JsonIgnore
+    public List<String> getSpecValueList(){
+        return this.getSpecs().stream().map(
+                spec -> spec.getValue()
+        ).collect(Collectors.toList());
     }
 }

@@ -6,12 +6,14 @@ import com.sheildog.csleevebackend.dto.SkuInfoDTO;
 import com.sheildog.csleevebackend.exception.http.NotFoundException;
 import com.sheildog.csleevebackend.exception.http.ParameterException;
 import com.sheildog.csleevebackend.logic.CouponChecker;
+import com.sheildog.csleevebackend.logic.OrderCheck;
 import com.sheildog.csleevebackend.model.Coupon;
 import com.sheildog.csleevebackend.model.Sku;
 import com.sheildog.csleevebackend.model.UserCoupon;
 import com.sheildog.csleevebackend.repository.CouponRepository;
 import com.sheildog.csleevebackend.repository.UserCouponRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -34,7 +36,13 @@ public class OrderService {
     @Autowired
     private IMoneyDiscount moneyDiscount;
 
-    public void isOk(Long uid, OrderDTO orderDTO) {
+    @Value("${c-sleeve-backend.order.max-sku-limit}")
+    private Integer maxSkuLimit;
+
+    @Value("${c-sleeve-backend.order.max-sku-limit}")
+    private Integer payTimeLimit;
+
+    public OrderCheck isOk(Long uid, OrderDTO orderDTO) {
         if (orderDTO.getFinalTotalPrice().compareTo(new BigDecimal("0")) <= 0) {
             throw new ParameterException(50011);
         }
@@ -51,7 +59,15 @@ public class OrderService {
         if (couponId != null) {
             Coupon coupon = this.couponRepository.findById(couponId).orElseThrow(() -> new NotFoundException(40004));
             UserCoupon userCoupon = this.userCouponRepository.findFirstByUserIdAndCouponId(uid, couponId).orElseThrow(() -> new NotFoundException(50006));
-            couponChecker = new CouponChecker(coupon, userCoupon, moneyDiscount);
+            couponChecker = new CouponChecker(coupon, moneyDiscount);
         }
+        OrderCheck orderCheck = new OrderCheck(
+                orderDTO,
+                skuList,
+                couponChecker,
+                this.maxSkuLimit
+        );
+        orderCheck.isOk();
+        return orderCheck;
     }
 }

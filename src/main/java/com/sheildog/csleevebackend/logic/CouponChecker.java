@@ -20,12 +20,10 @@ import java.util.stream.Collectors;
 public class CouponChecker {
 
     private Coupon coupon;
-    private UserCoupon userCoupon;
     private IMoneyDiscount moneyDiscount;
 
-    public CouponChecker(Coupon coupon, UserCoupon userCoupon, IMoneyDiscount moneyDiscount) {
+    public CouponChecker(Coupon coupon, IMoneyDiscount moneyDiscount) {
         this.coupon = coupon;
-        this.userCoupon = userCoupon;
         this.moneyDiscount = moneyDiscount;
     }
 
@@ -38,16 +36,16 @@ public class CouponChecker {
     }
 
     public void finalTotalPriceIsOk(BigDecimal orderFinalTotalPrice, BigDecimal serverTotalPrice) {
-        BigDecimal serverFinaleTotalPrice;
+        BigDecimal serverFinalTotalPrice;
 
         switch (CouponType.toType(this.coupon.getType())) {
             case FULL_OFF:
-                serverFinaleTotalPrice = this.moneyDiscount.discount(serverTotalPrice, this.coupon.getRate());
+                serverFinalTotalPrice = this.moneyDiscount.discount(serverTotalPrice, this.coupon.getRate());
                 break;
             case FULL_MINUS:
             case NO_THRESHOLD_MINUS:
-                serverFinaleTotalPrice = serverTotalPrice.subtract(this.coupon.getMinus());
-                if (serverFinaleTotalPrice.compareTo(new BigDecimal("0")) <= 0) {
+                serverFinalTotalPrice = serverTotalPrice.subtract(this.coupon.getMinus());
+                if (serverFinalTotalPrice.compareTo(new BigDecimal("0")) <= 0) {
                     throw new ForbiddenException(50008);
                 }
                 break;
@@ -55,7 +53,7 @@ public class CouponChecker {
                 throw new ParameterException(40009);
         }
 
-        int compare = serverFinaleTotalPrice.compareTo(orderFinalTotalPrice);
+        int compare = serverFinalTotalPrice.compareTo(orderFinalTotalPrice);
         if (compare != 0) {
             throw new ForbiddenException(50008);
         }
