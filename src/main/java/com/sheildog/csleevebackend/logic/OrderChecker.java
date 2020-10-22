@@ -16,7 +16,7 @@ import java.util.List;
 
 //@Service
 //@Scope(value = "prototype")
-public class OrderCheck {
+public class OrderChecker {
     private OrderDTO orderDTO;
     private List<Sku> serverSkuList;
     private CouponChecker couponChecker;
@@ -24,7 +24,7 @@ public class OrderCheck {
     @Getter
     private List<OrderSku> orderSkuList = new ArrayList<>();
 
-    public OrderCheck(OrderDTO orderDTO, List<Sku> serverSkuList, CouponChecker couponChecker, Integer maxSkuLimit) {
+    public OrderChecker(OrderDTO orderDTO, List<Sku> serverSkuList, CouponChecker couponChecker, Integer maxSkuLimit) {
         this.orderDTO = orderDTO;
         this.serverSkuList = serverSkuList;
         this.couponChecker = couponChecker;

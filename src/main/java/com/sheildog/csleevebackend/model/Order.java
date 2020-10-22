@@ -1,5 +1,8 @@
 package com.sheildog.csleevebackend.model;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.sheildog.csleevebackend.dto.OrderAddressDTO;
+import com.sheildog.csleevebackend.util.GenericAndJson;
 import lombok.*;
 import org.hibernate.annotations.Where;
 
@@ -7,6 +10,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -34,4 +38,31 @@ public class Order extends BaseEntity {
     private String prepayId;
     private BigDecimal finalTotalPrice;
     private Integer status;
+
+    public List<OrderSku> getSnapItems() {
+        List<OrderSku> list = GenericAndJson.jsonToObject(this.snapItems,
+                new TypeReference<List<OrderSku>>() {
+                });
+        return list;
+    }
+
+    public void setSnapItems(List<OrderSku> orderSkuList) {
+        if (orderSkuList.isEmpty()){
+            return;
+        }
+        this.snapAddress = GenericAndJson.objectToJson(orderSkuList);
+    }
+
+    public OrderAddressDTO getSnapAddress() {
+        if (this.snapAddress == null) {
+            return null;
+        }
+        OrderAddressDTO o = GenericAndJson.jsonToObject(this.snapAddress, new TypeReference<OrderAddressDTO>() {
+        });
+        return o;
+    }
+
+    public void setSnapAddress(OrderAddressDTO address) {
+        this.snapAddress = GenericAndJson.objectToJson(address);
+    }
 }

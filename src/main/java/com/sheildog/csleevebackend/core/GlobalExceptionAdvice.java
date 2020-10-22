@@ -2,6 +2,7 @@ package com.sheildog.csleevebackend.core;
 
 import com.sheildog.csleevebackend.core.configuration.ExceptionCodeConfiguration;
 import com.sheildog.csleevebackend.exception.http.HttpException;
+import com.sheildog.csleevebackend.exception.http.NotFoundException;
 import com.sheildog.csleevebackend.exception.http.ParameterException;
 import com.sheildog.csleevebackend.exception.http.ServerErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ import java.util.List;
  */
 @ControllerAdvice
 public class GlobalExceptionAdvice {
-//    private final ExceptionCodeConfiguration exceptionCodeConfiguration;
+    //    private final ExceptionCodeConfiguration exceptionCodeConfiguration;
 //
 //    public GlobalExceptionAdvice(ExceptionCodeConfiguration exceptionCodeConfiguration) {
 //        this.exceptionCodeConfiguration = exceptionCodeConfiguration;
@@ -98,6 +99,16 @@ public class GlobalExceptionAdvice {
     @ResponseBody
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
     public UnifyResponse handleParameterException(HttpServletRequest req, ParameterException e) {
+        String requestUrl = req.getRequestURI();
+        String method = req.getMethod();
+        UnifyResponse r = new UnifyResponse(e.getCode(), exceptionCodeConfiguration.getMessage(e.getCode()), method + " " + requestUrl);
+        return r;
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public UnifyResponse handleConstraintException(HttpServletRequest req, NotFoundException e) {
         String requestUrl = req.getRequestURI();
         String method = req.getMethod();
         UnifyResponse r = new UnifyResponse(e.getCode(), exceptionCodeConfiguration.getMessage(e.getCode()), method + " " + requestUrl);

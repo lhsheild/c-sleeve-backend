@@ -20,6 +20,7 @@ server:
 
 c-sleeve-backend:
   api-package: com.sheildog.csleevebackend.api
+  year-codes: A,B,C,D,E,F,G,H,I,J,K,L
 
 wx:
   appid: wx9908fbab69fc1b3d
