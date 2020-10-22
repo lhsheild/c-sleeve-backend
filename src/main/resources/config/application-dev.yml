@@ -14,6 +14,7 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+    WRITE_DATES_AS_TIMESTAMPS: false
 
 c-sleeve-backend:
   security:
@@ -21,3 +22,4 @@ c-sleeve-backend:
     token-expired-in: 36400000
   order:
     max-sku-limit: 777
+    pay-time-limit: 3600

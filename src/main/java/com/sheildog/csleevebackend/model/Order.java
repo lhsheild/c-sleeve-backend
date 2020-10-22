@@ -33,24 +33,26 @@ public class Order extends BaseEntity {
     private Date placedTime;
     private String snapImg;
     private String snapTitle;
+    @Column(name = "snap_items")
     private String snapItems;
+    @Column(name = "snap_address")
     private String snapAddress;
     private String prepayId;
     private BigDecimal finalTotalPrice;
     private Integer status;
+
+    public void setSnapItems(List<OrderSku> orderSkuList) {
+        if (orderSkuList.isEmpty()) {
+            return;
+        }
+        this.snapItems = GenericAndJson.objectToJson(orderSkuList);
+    }
 
     public List<OrderSku> getSnapItems() {
         List<OrderSku> list = GenericAndJson.jsonToObject(this.snapItems,
                 new TypeReference<List<OrderSku>>() {
                 });
         return list;
-    }
-
-    public void setSnapItems(List<OrderSku> orderSkuList) {
-        if (orderSkuList.isEmpty()){
-            return;
-        }
-        this.snapAddress = GenericAndJson.objectToJson(orderSkuList);
     }
 
     public OrderAddressDTO getSnapAddress() {

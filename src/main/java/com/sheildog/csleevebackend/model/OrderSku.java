@@ -2,6 +2,7 @@ package com.sheildog.csleevebackend.model;
 
 import com.sheildog.csleevebackend.dto.SkuInfoDTO;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Setter
 @Getter
+@NoArgsConstructor
 public class OrderSku {
     private Long id;
     private Long spuId;

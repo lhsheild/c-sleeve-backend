@@ -46,7 +46,7 @@ public class OrderChecker {
             // 超出库存
             this.beyondSkuStock(sku, skuInfoDTO);
 
-            serverTotalPrice.add(this.calculateSkuOrderPrice(sku, skuInfoDTO));
+            serverTotalPrice = serverTotalPrice.add(this.calculateSkuOrderPrice(sku, skuInfoDTO));
             skuOrderBOList.add(new SkuOrderBO(sku, skuInfoDTO));
             this.orderSkuList.add(new OrderSku(sku, skuInfoDTO));
         }
@@ -105,7 +105,7 @@ public class OrderChecker {
         return this.serverSkuList.get(0).getTitle();
     }
 
-    public Integer getTotalCount(){
+    public Integer getTotalCount() {
         return this.orderDTO.getSkuInfoList().stream()
                 .map(skuInfoDTO -> skuInfoDTO.getCount())
                 .reduce((a, b) -> Integer.sum(a, b))
