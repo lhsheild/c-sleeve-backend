@@ -28,7 +28,7 @@ public class WxPaymentNotifyService implements PaymentNotifyService {
     @Transactional
     @Override
     public void processPayNotify(String data) {
-        Map<String, String> dataMap = new HashMap<>();
+        Map<String, String> dataMap;
         try {
             dataMap = WXPayUtil.xmlToMap(data);
         } catch (Exception e) {
@@ -48,8 +48,12 @@ public class WxPaymentNotifyService implements PaymentNotifyService {
         }
         String returnCode = dataMap.get("return_code");
         String orderNo = dataMap.get("out_trade_no");
+        String resultCode = dataMap.get("result_code");
 
         if (!returnCode.equals("SUCCESS")) {
+            throw new ServerErrorException(9999);
+        }
+        if (!resultCode.equals("SUCCESS")) {
             throw new ServerErrorException(9999);
         }
         if (orderNo == null) {
@@ -60,6 +64,12 @@ public class WxPaymentNotifyService implements PaymentNotifyService {
     private void deal(String orderNo) {
         Optional<Order> orderOptional = this.orderRepository.findFirstByOrderNo(orderNo);
         Order order = orderOptional.orElseThrow(() -> new ServerErrorException(9999));
-        this.orderRepository.updateStatusByOrderNo(orderNo, OrderStatus.PAID.value());
+        int res = 0;
+        if (order.getStatus().equals(OrderStatus.UNPAID.value()) || order.getStatus().equals(OrderStatus.CANCELED.value())) {
+            res = this.orderRepository.updateStatusByOrderNo(orderNo, OrderStatus.PAID.value());
+        }
+        if (res != 1) {
+            throw new ServerErrorException(9999);
+        }
     }
 }
