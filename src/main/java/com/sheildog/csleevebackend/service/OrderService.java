@@ -161,4 +161,11 @@ public class OrderService {
         Long uid = LocalUser.getUser().getId();
         return this.orderRepository.findFirstByUserIdAndId(uid, oid);
     }
+
+    public void updateOrderPrepayId(Long orderId, String prepayId){
+        Optional<Order> orderOptional = this.orderRepository.findById(orderId);
+        Order order = orderOptional.orElseThrow(()-> new NotFoundException(50009));
+        order.setPrepayId(prepayId);
+        this.orderRepository.save(order);
+    }
 }

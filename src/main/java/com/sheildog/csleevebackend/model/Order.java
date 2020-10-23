@@ -1,7 +1,10 @@
 package com.sheildog.csleevebackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.sheildog.csleevebackend.core.enumeration.OrderStatus;
 import com.sheildog.csleevebackend.dto.OrderAddressDTO;
+import com.sheildog.csleevebackend.util.CommonUtil;
 import com.sheildog.csleevebackend.util.GenericAndJson;
 import lombok.*;
 import org.hibernate.annotations.Where;
@@ -13,6 +16,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * @author a7818
+ */
 @Getter
 @Setter
 @Builder
@@ -66,5 +72,24 @@ public class Order extends BaseEntity {
 
     public void setSnapAddress(OrderAddressDTO address) {
         this.snapAddress = GenericAndJson.objectToJson(address);
+    }
+
+    @JsonIgnore
+    public OrderStatus getStatusEnum() {
+        return OrderStatus.toType(this.status);
+    }
+
+    public Boolean needCancel(Long period) {
+        if (!this.getStatusEnum().equals(OrderStatus.UNPAID)) {
+            return true;
+        }
+        return CommonUtil.isOutOfDate(this.getPlacedTime(), period);
+    }
+
+    public Boolean needCancel() {
+        if (!this.getStatusEnum().equals(OrderStatus.UNPAID)) {
+            return true;
+        }
+        return CommonUtil.isOutOfDate(this.getExpiredTime());
     }
 }

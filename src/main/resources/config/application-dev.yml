@@ -23,3 +23,6 @@ c-sleeve-backend:
   order:
     max-sku-limit: 777
     pay-time-limit: 3600
+    wx:
+      pay-callback-host: http://sleeve.vaiwan.com
+      pay-callback-path: /v1/payment/wx/notify
