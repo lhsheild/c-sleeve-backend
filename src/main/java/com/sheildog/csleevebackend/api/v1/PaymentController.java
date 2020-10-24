@@ -2,6 +2,7 @@ package com.sheildog.csleevebackend.api.v1;
 
 import com.sheildog.csleevebackend.core.interceptors.ScopeLevel;
 import com.sheildog.csleevebackend.lib.WxNotify;
+import com.sheildog.csleevebackend.service.PaymentNotifyService;
 import com.sheildog.csleevebackend.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -27,6 +28,9 @@ public class PaymentController {
     @Autowired
     private PaymentService paymentService;
 
+    @Autowired
+    private PaymentNotifyService paymentNotifyService;
+
     @PostMapping("/pay/order/{id}")
     @ScopeLevel
     @Validated
@@ -46,6 +50,11 @@ public class PaymentController {
             return WxNotify.fail();
         }
         String xml = WxNotify.readNotify(s);
-        return null;
+        try {
+            this.paymentNotifyService.processPayNotify(xml);
+        } catch (Exception e) {
+            return WxNotify.fail();
+        }
+        return WxNotify.success();
     }
 }
