@@ -22,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -55,6 +57,9 @@ public class OrderService {
 
     @Autowired
     private SkuRepository skuRepository;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @Value("${c-sleeve-backend.order.max-sku-limit}")
     private Integer maxSkuLimit;
@@ -134,10 +139,13 @@ public class OrderService {
         //reduceStock
         this.reduceStock(orderChecker);
         //核销优惠券
+        Long couponId = -1L;
         if (orderDTO.getCouponId() != null) {
             this.writeOffCoupon(orderDTO.getCouponId(), order.getId(), uid);
+            couponId = orderDTO.getCouponId();
         }
         //信息加入延迟消息队列
+        this.sendToRedis(order.getId(), uid, couponId);
         return order.getId();
     }
 
@@ -151,21 +159,30 @@ public class OrderService {
     public Page<Order> getByStatus(Integer status, Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("createTime").descending());
         Long uid = LocalUser.getUser().getId();
-        if (status == OrderStatus.ALL.value()){
+        if (status == OrderStatus.ALL.value()) {
             return this.orderRepository.findByUserId(uid, pageable);
         }
         return this.orderRepository.findByUserIdAndStatus(uid, status, pageable);
     }
 
-    public Optional<Order> getOrderDetail(Long oid){
+    public Optional<Order> getOrderDetail(Long oid) {
         Long uid = LocalUser.getUser().getId();
         return this.orderRepository.findFirstByUserIdAndId(uid, oid);
     }
 
-    public void updateOrderPrepayId(Long orderId, String prepayId){
+    public void updateOrderPrepayId(Long orderId, String prepayId) {
         Optional<Order> orderOptional = this.orderRepository.findById(orderId);
-        Order order = orderOptional.orElseThrow(()-> new NotFoundException(50009));
+        Order order = orderOptional.orElseThrow(() -> new NotFoundException(50009));
         order.setPrepayId(prepayId);
         this.orderRepository.save(order);
+    }
+
+    private void sendToRedis(Long oid, Long uid, Long couponId) {
+        String key = oid.toString() + "," + uid.toString() + "," + couponId.toString();
+        try {
+            stringRedisTemplate.opsForValue().set(key, "1", this.payTimeLimit, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

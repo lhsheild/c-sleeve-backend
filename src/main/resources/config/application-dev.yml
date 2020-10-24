@@ -15,6 +15,12 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
     WRITE_DATES_AS_TIMESTAMPS: false
+  redis:
+    host: 121.43.183.238
+    port: 6379
+    database: 7
+    password:
+    listen-pattern: __keyevent@7__:expired
 
 c-sleeve-backend:
   security:
