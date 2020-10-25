@@ -21,6 +21,15 @@ spring:
     database: 7
     password:
     listen-pattern: __keyevent@7__:expired
+    timeout: 5000
+
+rocketmq:
+  producer:
+    producer-group: SleeveProducerGroup
+  consumer:
+    consumer-group: SleeveConsumerGroup
+  namesrv-addr: 121.43.183.238.:9876
+  delay-level: 3
 
 c-sleeve-backend:
   security:

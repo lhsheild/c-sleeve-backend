@@ -18,4 +18,10 @@ public interface UserCouponRepository extends JpaRepository<UserCoupon, Long> {
             "set uc.status = 2, uc.orderId = ?2\n" +
             "where uc.userId = ?3 and uc.couponId = ?1 and uc.status = 1 and uc.orderId is null ")
     int writeOff(Long couponId, Long oid, Long uid);
+
+    @Modifying
+    @Query("update UserCoupon uc\n" +
+            "set uc.status=1, uc.orderId=null\n" +
+            "where uc.couponId=?1 and uc.userId = ?2 and uc.orderId is not null and uc.status=2")
+    int returnBack(Long couponId, Long uid);
 }
