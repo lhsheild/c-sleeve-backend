@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/test")
 public class TestController {
-    @Autowired
-    private ProducerSchedule producerSchedule;
+//    @Autowired
+//    private ProducerSchedule producerSchedule;
 
     @Autowired
     private Test test;
@@ -23,10 +23,10 @@ public class TestController {
 
     @GetMapping("/push")
     public void pushMessageToMQ(){
-        try {
-            this.producerSchedule.send("topictest", "tagstest", "testmessage");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            this.producerSchedule.send("topictest", "tagstest", "testmessage");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 }

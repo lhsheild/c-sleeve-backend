@@ -27,7 +27,7 @@ public class ProducerSchedule {
     }
 
     // 初始化过程中想做一些事情同时依赖springboot托管注入的成员变量
-    @PostConstruct
+//    @PostConstruct
     public void defaultMQProducer() {
         if (this.producer == null) {
             this.producer = new DefaultMQProducer(this.producerGroup);
